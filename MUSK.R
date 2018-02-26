@@ -1,3 +1,5 @@
+load("/home/xidwang/A-dong/data_env.RData")
+
 y_musk=labe
 x_musk=scale_0_1(clean2[,-c(1,2,169)])   # 6598 by 166
 
