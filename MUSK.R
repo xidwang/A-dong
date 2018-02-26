@@ -27,8 +27,10 @@ loglkratio_musk=function(v,N)
   return(distance)
 }
 
+final_distance=loglkratio_musk(1,10)
 
-heatmap(loglkratio_musk(1,10),distfun=as.dist,hclustfun=function(d) hclust(d,method = "ward.D2"),sym=TRUE)
+save(final_distance,file="MUSK_distance")
 
-?rainbow
+heatmap(final_distance,distfun=as.dist,hclustfun=function(d) hclust(d,method = "ward.D2"),sym=TRUE)
+
 
