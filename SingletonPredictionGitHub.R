@@ -70,10 +70,10 @@ color_fastball_valid=color_fastball[-train_index]
 combinatorics2=combn(14,2)
 
 # given training and validation dataset
-singleton_prediction_pos_neg=function(x)
+singleton_prediction_pos_neg=function(i)
 {
   #pitcher_label
-  sample_index=sample_index[x]
+  sample_index=new_sample_index[i]
   Ncluster=30
   
   new_sample_singleton0=x_fastball_valid[which(y_fastball_valid==levels(y_fastball)[pitcher_label])[sample_index],]
