@@ -72,7 +72,9 @@ combinatorics2=combn(14,2)
 # given training and validation dataset
 singleton_prediction_pos_neg=function(i)
 {
-  #pitcher_label
+  test_size=400
+  new_sample_index=sample(1:m,test_size)
+  pitcher_label=6
   sample_index=new_sample_index[i]
   Ncluster=30
   
