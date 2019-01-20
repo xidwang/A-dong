@@ -70,8 +70,12 @@ color_fastball_valid=color_fastball[-train_index]
 combinatorics2=combn(14,2)
 
 # given training and validation dataset
-singleton_prediction_pos_neg=function(pitcher_label,sample_index,Ncluster)
+singleton_prediction_pos_neg=function(x)
 {
+  #pitcher_label
+  sample_index=sample_index[x]
+  Ncluster=30
+  
   new_sample_singleton0=x_fastball_valid[which(y_fastball_valid==levels(y_fastball)[pitcher_label])[sample_index],]
   new_sample_singleton=as.data.frame(matrix(rep(as.matrix(new_sample_singleton0),900),900,21,byrow=TRUE))
   colnames(new_sample_singleton)=colnames(new_sample_singleton0)
@@ -146,7 +150,6 @@ library(parallel)
 #stopCluster(cl)
 
 
-P=function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[x],20)
 ########Parallel##########
 ##########################
 pitcher_label=6
@@ -161,7 +164,7 @@ print(no_cores)
 # Initiate cluster
 cl <- makeCluster(no_cores)
 result_matrix=parLapply(cl, 1:10,  #length(new_sample_index)  
-                        P )
+                        singleton_prediction_pos_neg )
 stopCluster(cl)  
 
 print(result_matrix)
