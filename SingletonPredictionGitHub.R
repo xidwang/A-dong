@@ -44,12 +44,25 @@ combine1=function(a,b)
 
 
 
+
 set.seed(100)
 train_index=sample(nrow(x_fastball),0.7*nrow(x_fastball),replace = FALSE)
 x_fastball_train=x_fastball[train_index,]
 x_fastball_valid=x_fastball[-train_index,]
 y_fastball_train=y_fastball[train_index]
 y_fastball_valid=y_fastball[-train_index]
+
+library(RColorBrewer)
+cols <- brewer.pal(12, "Paired")
+cols=c(cols,"cadetblue1","black")
+pie(rep(1, 14), col = cols)
+pie(rep(1, 14), col = cols,labels=levels(y_fastball),radius=1)
+color_fastball=rep(0,length(y_fastball))
+for (i in 1:14){
+  color_fastball[which(y_fastball==levels(y_fastball)[i])]=cols[i]
+}
+
+
 color_fastball_train=color_fastball[train_index]
 color_fastball_valid=color_fastball[-train_index]
 
