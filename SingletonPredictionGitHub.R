@@ -1,3 +1,47 @@
+# 14 pitchers as response
+y_fastball=as.factor(fastballs$pitcher)
+# 21 features   18356 rows
+x_fastball=subset(fastballs, select=c("x0", "z0","vx0","vy0","vz0","ax","ay","az","start_speed",
+                                      "end_speed","spin_dir","spin_rate","break_length","break_angle",
+                                      "break_y","pfx_x","pfx_z","px","pz","x","y"))
+
+scale_0_1=function(m)
+{
+  center=sweep(m,2,apply(m,2,min))
+  R=apply(m,2,max)-apply(m,2,min)
+  sweep(center,2,R,"/")}
+
+
+H=function(feature)
+{
+  P=table(feature)/sum(table(feature))
+  test=log(P)
+  test[which(log(P)==-Inf)]=-100
+  sum(-P*test)    # -p*log(p)
+}
+
+# a b should have the same length
+combine1=function(a,b)
+{
+  a=as.factor(a)
+  a_level=levels(a)
+  na=length(levels(a))
+  nb=length(table(b))
+  k=1
+  combine_2=rep(0,length(a))
+  for(i in 1:na)
+  {
+    for(j in 1:nb)
+    {
+      if(length(which(a==a_level[i] & b==j))>0)
+      {combine_2[which(a==a_level[i] & b==j)]=k;k=k+1}
+    }
+  }
+  combine_2[which(combine_2!=0)]  # positive elements
+}
+
+
+
 set.seed(100)
 train_index=sample(nrow(x_fastball),0.7*nrow(x_fastball),replace = FALSE)
 x_fastball_train=x_fastball[train_index,]
