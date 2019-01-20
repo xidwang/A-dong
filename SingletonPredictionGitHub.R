@@ -46,7 +46,7 @@ combine1=function(a,b)
 
 
 set.seed(100)
-train_index=sample(nrow(x_fastball),0.6*nrow(x_fastball),replace = FALSE)
+train_index=sample(nrow(x_fastball),0.7*nrow(x_fastball),replace = FALSE)
 x_fastball_train=x_fastball[train_index,]
 x_fastball_valid=x_fastball[-train_index,]
 y_fastball_train=y_fastball[train_index]
@@ -70,13 +70,8 @@ color_fastball_valid=color_fastball[-train_index]
 combinatorics2=combn(14,2)
 
 # given training and validation dataset
-singleton_prediction_pos_neg=function(i)
+singleton_prediction_pos_neg=function(pitcher_label,sample_index,Ncluster)
 {
-  test_size=400
-  new_sample_index=sample(1:m,test_size)
-  pitcher_label=6
-  sample_index=new_sample_index[i]
-  Ncluster=30
   
   new_sample_singleton0=x_fastball_valid[which(y_fastball_valid==levels(y_fastball)[pitcher_label])[sample_index],]
   new_sample_singleton=as.data.frame(matrix(rep(as.matrix(new_sample_singleton0),900),900,21,byrow=TRUE))
@@ -140,16 +135,17 @@ G1=1:3
 
 
 
+
 library(parallel)
-
-# Calculate the number of cores
-#no_cores <- detectCores() - 1
-# Initiate cluster
-#cl <- makeCluster(no_cores)
-
-#parLapply(cl, 2:4,function(exponent) 2^exponent)
-
-#stopCluster(cl)
+# g=function(x,y) x+y
+# # Calculate the number of cores
+# no_cores <- detectCores() - 1
+# # Initiate cluster
+# cl <- makeCluster(no_cores,type="FORK")
+# 
+# parLapply(cl, 2:4, function(x) g(x,4))
+# 
+# stopCluster(cl)
 
 
 ########Parallel##########
@@ -164,9 +160,9 @@ new_sample_index=sample(1:m,test_size)
 no_cores <- detectCores() - 1
 print(no_cores)
 # Initiate cluster
-cl <- makeCluster(no_cores)
+cl <- makeCluster(no_cores,type="FORK")
 result_matrix=parLapply(cl, 1:10,  #length(new_sample_index)  
-                        singleton_prediction_pos_neg )
+                        function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[i],30) )
 stopCluster(cl)  
 
 print(result_matrix)
