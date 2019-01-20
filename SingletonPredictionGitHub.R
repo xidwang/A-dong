@@ -1,3 +1,5 @@
+load("~/fastballs_data.RData")
+
 # 14 pitchers as response
 y_fastball=as.factor(fastballs$pitcher)
 # 21 features   18356 rows
