@@ -116,6 +116,7 @@ singleton_prediction_pos_neg=function(pitcher_label,sample_index,Ncluster)
 
 
 
+G1=1:3
 
 pitcher_label=6
 test_size=400
