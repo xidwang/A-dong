@@ -160,8 +160,8 @@ no_cores <- detectCores() - 1
 print(no_cores)
 # Initiate cluster
 cl <- makeCluster(no_cores)
-result_matrix=parLapply(cl, 1:10,  #length(new_sample_index)
-          function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[x],20))
+result_matrix=parLapply(cl, 1:7,  #length(new_sample_index)  new_sample_index[x]
+          function(x) singleton_prediction_pos_neg(pitcher_label,x,20) )
 stopCluster(cl)  
 
 print(result_matrix)
