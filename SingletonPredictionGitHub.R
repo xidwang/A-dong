@@ -46,7 +46,7 @@ combine1=function(a,b)
 
 
 set.seed(100)
-train_index=sample(nrow(x_fastball),0.7*nrow(x_fastball),replace = FALSE)
+train_index=sample(nrow(x_fastball),0.6*nrow(x_fastball),replace = FALSE)
 x_fastball_train=x_fastball[train_index,]
 x_fastball_valid=x_fastball[-train_index,]
 y_fastball_train=y_fastball[train_index]
@@ -118,14 +118,54 @@ singleton_prediction_pos_neg=function(pitcher_label,sample_index,Ncluster)
 
 G1=1:3
 
+
+# pitcher_label=6
+# test_size=400
+# result_matrix=matrix(0,test_size,14)
+# m= length(which(y_fastball_valid==levels(y_fastball)[pitcher_label]))
+# new_sample_index=sample(1:m,test_size)
+# for( i in 1:length(new_sample_index) )
+# {result_matrix[i,]=singleton_prediction_pos_neg( pitcher_label , new_sample_index[i] , 20 )}
+# predict_pitcher6=table(apply(result_matrix,1,which.max))
+# print(predict_pitcher6)
+# 
+# write.csv(result_matrix, file = "/home/xidwang/A-dong/predict_pitcher6.csv")
+
+
+
+
+library(parallel)
+
+# Calculate the number of cores
+#no_cores <- detectCores() - 1
+# Initiate cluster
+#cl <- makeCluster(no_cores)
+
+#parLapply(cl, 2:4,function(exponent) 2^exponent)
+
+#stopCluster(cl)
+
+
+
+########Parallel##########
+##########################
 pitcher_label=6
 test_size=400
 result_matrix=matrix(0,test_size,14)
 m= length(which(y_fastball_valid==levels(y_fastball)[pitcher_label]))
 new_sample_index=sample(1:m,test_size)
-for( i in 1:length(new_sample_index) )
-{result_matrix[i,]=singleton_prediction_pos_neg( pitcher_label , new_sample_index[i] , 20 )}
-predict_pitcher6=table(apply(result_matrix,1,which.max))
 
-write.csv(result_matrix, file = "/Users/wangxiaodong/Desktop/predict_pitcher6.csv")
+# Calculate the number of cores
+no_cores <- detectCores() - 1
+print(no_cores)
+# Initiate cluster
+cl <- makeCluster(no_cores)
+result_matrix=parLapply(cl, 1:10,  #length(new_sample_index)
+          function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[x],20))
+stopCluster(cl)  
+
+print(result_matrix)
+
+write.csv(result_matrix, file = "/home/xidwang/A-dong/predict_pitcher6.csv")
+
 
