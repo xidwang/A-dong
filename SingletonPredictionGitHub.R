@@ -151,7 +151,7 @@ library(parallel)
 ########Parallel##########
 ##########################
 pitcher_label=6
-test_size=500
+test_size=200
 result_matrix=matrix(0,test_size,14)
 m= length(which(y_fastball_valid==levels(y_fastball)[pitcher_label]))
 new_sample_index=sample(1:m,test_size)
@@ -169,4 +169,25 @@ print(result_matrix)
 print( table(apply(result_matrix,1,which.max)) )
 write.csv(result_matrix, file = "/home/xidwang/A-dong/predict_pitcher6.csv")
 
+
+
+
+pitcher_label=7
+test_size=200
+result_matrix=matrix(0,test_size,14)
+m= length(which(y_fastball_valid==levels(y_fastball)[pitcher_label]))
+new_sample_index=sample(1:m,test_size)
+
+# Calculate the number of cores
+no_cores <- detectCores() - 1
+print(no_cores)
+# Initiate cluster
+cl <- makeCluster(no_cores,type="FORK")
+result_matrix=parLapply(cl, 1:length(new_sample_index),
+                        function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[i],30) )
+stopCluster(cl)  
+
+print(result_matrix)
+print( table(apply(result_matrix,1,which.max)) )
+write.csv(result_matrix, file = "/home/xidwang/A-dong/predict_pitcher7.csv")
 
