@@ -1,4 +1,4 @@
-load("~/fastballs_data.RData")
+load('/home/xidwang/A-dong/fastballs_data.RData')
 
 # 14 pitchers as response
 y_fastball=as.factor(fastballs$pitcher)
