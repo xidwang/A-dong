@@ -69,6 +69,8 @@ color_fastball_valid=color_fastball[-train_index]
 
 combinatorics2=combn(14,2)
 
+sample_index=new_sample_index[i]
+
 # given training and validation dataset
 singleton_prediction_pos_neg=function(pitcher_label,sample_index,Ncluster)
 {
@@ -162,12 +164,14 @@ print(no_cores)
 # Initiate cluster
 cl <- makeCluster(no_cores,type="FORK")
 result_matrix=parLapply(cl, 1:length(new_sample_index),
-                        function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[i],30) )
+                        function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[x],50) )
 stopCluster(cl)  
 
 print(result_matrix)
-print( table(apply(result_matrix,1,which.max)) )
+print( table(sapply(result_matrix,which.max)) )
 write.csv(result_matrix, file = "/home/xidwang/A-dong/predict_pitcher6.csv")
+
+#write.csv(result_matrix, file = "/Users/wangxiaodong/Desktop/predict_pitcher6.csv")
 
 
 
@@ -184,10 +188,12 @@ print(no_cores)
 # Initiate cluster
 cl <- makeCluster(no_cores,type="FORK")
 result_matrix=parLapply(cl, 1:length(new_sample_index),
-                        function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[i],30) )
+                        function(x) singleton_prediction_pos_neg(pitcher_label,new_sample_index[x],50) )
 stopCluster(cl)  
 
 print(result_matrix)
 print( table(apply(result_matrix,1,which.max)) )
 write.csv(result_matrix, file = "/home/xidwang/A-dong/predict_pitcher7.csv")
+
+#write.csv(result_matrix, file = "/Users/wangxiaodong/Desktop/predict_pitcher6.csv")
 
