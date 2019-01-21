@@ -69,7 +69,6 @@ color_fastball_valid=color_fastball[-train_index]
 
 combinatorics2=combn(14,2)
 
-sample_index=new_sample_index[i]
 
 # given training and validation dataset
 singleton_prediction_pos_neg=function(pitcher_label,sample_index,Ncluster)
